@@ -301,12 +301,14 @@ QSharedPointer<CompositeKey> DatabaseOpenWidget::buildDatabaseKey()
             m_ui->messageWidget->showMessage(tr("Failed to open key file: %1").arg(errorMsg), MessageWidget::Error);
             return {};
         }
-        if (key->type() != FileKey::Hashed && !config()->get(Config::Messages_NoLegacyKeyFileWarning).toBool()) {
+        if (key->type() != FileKey::KeePass2XMLv2 && key->type() != FileKey::Hashed
+            && !config()->get(Config::Messages_NoLegacyKeyFileWarning).toBool()) {
             QMessageBox legacyWarning;
             legacyWarning.setWindowTitle(tr("Legacy key file format"));
-            legacyWarning.setText(tr("You are using a legacy key file format which may become\n"
-                                     "unsupported in the future.\n\n"
-                                     "Please consider generating a new key file."));
+            legacyWarning.setText(tr("You are using a legacy key file format which may become<br>"
+                                     "unsupported in the future.<br><br>"
+                                     "Please consider generating a new key file by going to:<br>"
+                                     "<strong>Database / Database Security / Change Key File.</strong><br>"));
             legacyWarning.setIcon(QMessageBox::Icon::Warning);
             legacyWarning.addButton(QMessageBox::Ok);
             legacyWarning.setDefaultButton(QMessageBox::Ok);
